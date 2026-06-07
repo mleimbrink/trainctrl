@@ -1,0 +1,10 @@
+[package]
+name = "trainctrl"
+version = "0.1.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+readme = "../readme.md"
+publish = false
+
+[dependencies]
+trainctrl_tracks = { version = "0.1", path = "../trainctrl_tracks" }
