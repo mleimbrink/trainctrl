@@ -198,10 +198,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "trainctrl_controller"
-version = "0.1.0"
-
-[[package]]
 name = "trainctrl_tracks"
 version = "0.1.0"
 dependencies = [

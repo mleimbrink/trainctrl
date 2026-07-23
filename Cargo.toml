@@ -1,8 +1,6 @@
 [workspace]
 resolver = "2"
 members = [
-	"trainctrl", 
-    "trainctrl_controller", 
-    "trainctrl_tracks", 
+	"trainctrl",
 ]
 default-run = "trainctrl_controller"
