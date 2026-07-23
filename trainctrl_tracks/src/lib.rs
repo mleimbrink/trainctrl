@@ -1,20 +1,25 @@
+pub mod track_node;
+pub mod rail_network;
+pub mod rail_station;
+pub mod rail_switch;
+
 /// Example demonstrating how to encapsulate graph logic in a struct.
 /// This example shows a road network with both Dijkstra and A* algorithms.
-use pathfinding::prelude::{astar, dijkstra};
+use pathfinding::prelude::dijkstra;
 use std::collections::HashMap;
 
 struct RoadNetwork {
     // adjacency list: city name -> list of (neighbor, distance)
     connections: HashMap<String, Vec<(String, u32)>>,
     // coordinates for heuristic (optional)
-    coordinates: HashMap<String, (f64, f64)>,
+    //coordinates: HashMap<String, (f64, f64)>,
 }
 
 impl RoadNetwork {
     fn new() -> Self {
         Self {
             connections: HashMap::new(),
-            coordinates: HashMap::new(),
+      //      coordinates: HashMap::new(),
         }
     }
 
@@ -30,15 +35,15 @@ impl RoadNetwork {
         self.add_road(city2, city1, distance);
     }
 
-    fn add_coordinates(&mut self, city: &str, x: f64, y: f64) {
-        self.coordinates.insert(city.to_string(), (x, y));
-    }
+//    fn add_coordinates(&mut self, city: &str, x: f64, y: f64) {
+//        self.coordinates.insert(city.to_string(), (x, y));
+//    }
 
     fn successors(&self, city: &str) -> Vec<(String, u32)> {
         self.connections.get(city).cloned().unwrap_or_default()
     }
 
-    fn heuristic(&self, from: &str, to: &str) -> u32 {
+/*    fn heuristic(&self, from: &str, to: &str) -> u32 {
         // Euclidean distance as heuristic
         if let (Some(&(x1, y1)), Some(&(x2, y2))) =
             (self.coordinates.get(from), self.coordinates.get(to))
@@ -52,7 +57,7 @@ impl RoadNetwork {
             0
         }
     }
-
+*/
     fn find_path_dijkstra(&self, start: &str, goal: &str) -> Option<(Vec<String>, u32)> {
         dijkstra(
             &start.to_string(),
@@ -61,7 +66,7 @@ impl RoadNetwork {
         )
     }
 
-    fn find_path_astar(&self, start: &str, goal: &str) -> Option<(Vec<String>, u32)> {
+/*    fn find_path_astar(&self, start: &str, goal: &str) -> Option<(Vec<String>, u32)> {
         let goal_str = goal.to_string();
         astar(
             &start.to_string(),
@@ -69,7 +74,7 @@ impl RoadNetwork {
             |city| self.heuristic(city, &goal_str),
             |city| city == &goal_str,
         )
-    }
+    }*/
 }
 
 pub fn main() {
@@ -84,12 +89,12 @@ pub fn main() {
     network.add_bidirectional_road("CityD", "CityE", 5);
 
     // Add coordinates for A* heuristic
-    network.add_coordinates("CityA", 0.0, 0.0);
+    /*network.add_coordinates("CityA", 0.0, 0.0);
     network.add_coordinates("CityB", 10.0, 0.0);
     network.add_coordinates("CityC", 0.0, 15.0);
     network.add_coordinates("CityD", 10.0, 12.0);
     network.add_coordinates("CityE", 15.0, 8.0);
-
+*/
     println!("Road Network Pathfinding Example\n");
 
     // Find path using Dijkstra
@@ -100,11 +105,11 @@ pub fn main() {
     }
 
     // Find path using A*
-    if let Some((path, cost)) = network.find_path_astar("CityA", "CityE") {
+    /*if let Some((path, cost)) = network.find_path_astar("CityA", "CityE") {
         println!("\nA* Algorithm:");
         println!("  Path from CityA to CityE: {path:?}");
         println!("  Total distance: {cost}");
-    }
+    }*/
 
     // Another example
     if let Some((path, cost)) = network.find_path_dijkstra("CityA", "CityD") {
