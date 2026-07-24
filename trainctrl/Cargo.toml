@@ -7,4 +7,4 @@ readme = "../readme.md"
 publish = false
 
 [dependencies]
-trainctrl_tracks = { version = "0.1", path = "../trainctrl_tracks" }
+#trainctrl_tracks = { version = "0.1", path = "../trainctrl_tracks" }
