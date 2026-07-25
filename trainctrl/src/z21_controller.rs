@@ -1,7 +1,8 @@
 use std::net::UdpSocket;
 
-use crate::utils::primitives::Primitives;
+use crate::{utils::primitives::Primitives, z21_command_receive::Z21CommandReceive, z21_command_send::Z21CommandSend};
 
+#[derive(Debug, Clone)]
 pub struct Z21Controller {
     bind_addr: String,
     ctrl_addr: String,
@@ -21,24 +22,16 @@ impl Z21Controller {
         let socket = UdpSocket::bind(&self.bind_addr)?;
 
         println!("send serial");
-        let mut telegram = [0;4];
-        telegram[0] = 0x04;
-        telegram[2] = 0x1A;
-
+        let telegram = Z21CommandSend::LanGetSerialNumber.create_telegram();
         socket.send_to(&telegram, &self.ctrl_addr)?;
 
-        let mut receive = [0; 12];
+        let mut receive = [0; 8];
         socket.recv(&mut receive)?;
-        let mut r = 4..8;
-        let serial = Primitives::get_u32(&receive, &mut r); // 267734
-
-        println!("serial: {:?}", &serial);
+        let data = Z21CommandReceive::interprete_telegram(&receive);
+        println!("serial: {:?}", &data);
 
         println!("send logoff");
-        let mut telegram = [0;4];
-        telegram[0] = 0x04;
-        telegram[2] = 0x30;
-
+        let telegram = Z21CommandSend::LanLogoff.create_telegram();
         socket.send_to(&telegram, &self.ctrl_addr)?;
 
         Ok(())

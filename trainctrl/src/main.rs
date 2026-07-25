@@ -1,4 +1,8 @@
 mod z21_controller;
+mod z21_command;
+mod z21_command_send;
+mod z21_command_receive;
+
 mod utils;
 
 use crate::z21_controller::Z21Controller;
